@@ -21,6 +21,13 @@ public class XMLReader {
             for (int i = 0; i < nodes.getLength(); i++) {
                 Element element = (Element) nodes.item(i);
 
+                String organization = element.getElementsByTagName("organization").item(0).getTextContent();
+                String description = element.getElementsByTagName("description").item(0).getTextContent();
+                double amount = Double.parseDouble(element.getElementsByTagName("amount").item(0).getTextContent());
+                String date = element.getElementsByTagName("date").item(0).getTextContent();
+                String awardedTo = element.getElementsByTagName("awardedTo").item(0).getTextContent();
+
+                contracts.add(new Contract(organization, description, amount, date, awardedTo));
             }
         }catch(Exception e){
             e.printStackTrace();
