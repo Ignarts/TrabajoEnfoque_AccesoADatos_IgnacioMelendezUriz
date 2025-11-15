@@ -9,22 +9,35 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class ContractDAO {
+
+    private static final String INSERT_SQL =
+            "INSERT INTO contracts (nif, awardedTo, genericObject, objectDescription, awardedDate, amount, consultedProviders) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+    /**
+     * Inserts a list of Contract objects into the database.
+     */
     public void insertContracts(List<Contract> contracts) {
-        String sql = "INSERT INTO contracts (organization, description, amount, date, awardedTo) VALUES (?, ?, ?, ?, ?)";
+        try (Connection connection = DatabaseConnection.connect();
+             PreparedStatement stmt = connection.prepareStatement(INSERT_SQL)) {
 
-        try(Connection connection = DatabaseConnection.connect();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            for (Contract contract : contracts) {
-                preparedStatement.setString(1, contract.getDescription());
-                preparedStatement.setString(2, contract.getDescription());
-                preparedStatement.setDouble(3, contract.getAmount());
-                preparedStatement.setString(4, contract.getDate());
-                preparedStatement.setString(5, contract.getAwardedTo());
+            for (Contract c : contracts) {
 
-                preparedStatement.executeUpdate();
+                stmt.setString(1, c.getNif());
+                stmt.setString(2, c.getAwardedTo());
+                stmt.setString(3, c.getGenericObject());
+                stmt.setString(4, c.getObjectDescription());
+                stmt.setString(5, c.getAwardedDate());
+                stmt.setDouble(6, c.getAmount());
+                stmt.setString(7, c.getConsultedProviders());
+
+                stmt.executeUpdate();
             }
+
+            System.out.println("✔️ All contracts inserted successfully.");
+
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.err.println("❌ Error inserting contracts: " + e.getMessage());
         }
     }
 }

@@ -13,7 +13,7 @@ public class Main {
         System.out.println("🚀 Starting Minor Contracts Processor...");
 
         // 1. XML path inside resources
-        String inputXML = "src/main/resources/contracts-source.xml";
+        String inputXML = "src/main/resources/contratos.xml";
         String outputXML = "src/main/resources/contracts-output.xml";
 
         // 2. Read contracts from XML
