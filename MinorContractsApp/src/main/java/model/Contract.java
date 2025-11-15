@@ -1,37 +1,31 @@
 package model;
 
 public class Contract {
-    private String organization;
-    private String description;
-    private double amount;
-    private String date;
+
+    private String nif;
     private String awardedTo;
+    private String genericObject;
+    private String objectDescription;
+    private String awardedDate;
+    private double amount;
+    private String consultedProviders;
 
-    public Contract(String organization, String description, double amount, String date, String awardedTo) {
-        this.organization = organization;
-        this.description = description;
-        this.amount = amount;
-        this.date = date;
+    public Contract(String nif, String awardedTo, String genericObject, String objectDescription,
+                    String awardedDate, double amount, String consultedProviders) {
+        this.nif = nif;
         this.awardedTo = awardedTo;
+        this.genericObject = genericObject;
+        this.objectDescription = objectDescription;
+        this.awardedDate = awardedDate;
+        this.amount = amount;
+        this.consultedProviders = consultedProviders;
     }
 
-    public String getOrganization() {
-        return organization;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public String getAwardedTo() {
-        return awardedTo;
-    }
+    public String getNif() { return nif; }
+    public String getAwardedTo() { return awardedTo; }
+    public String getGenericObject() { return genericObject; }
+    public String getObjectDescription() { return objectDescription; }
+    public String getAwardedDate() { return awardedDate; }
+    public double getAmount() { return amount; }
+    public String getConsultedProviders() { return consultedProviders; }
 }

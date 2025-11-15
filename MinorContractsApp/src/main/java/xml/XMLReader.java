@@ -1,38 +1,72 @@
 package xml;
 
 import model.Contract;
-
 import org.w3c.dom.*;
 import javax.xml.parsers.*;
 import java.io.File;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class XMLReader {
-    public List<Contract> readContract(String path) {
+
+    public List<Contract> readContracts(String path) {
         List<Contract> contracts = new ArrayList<>();
 
-        try{
+        try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(new File(path));
-            NodeList nodes = document.getElementsByTagName("contract");
+            Document doc = builder.parse(new File(path));
+            NodeList nodeList = doc.getElementsByTagName("contrato");
 
-            for (int i = 0; i < nodes.getLength(); i++) {
-                Element element = (Element) nodes.item(i);
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Element elem = (Element) nodeList.item(i);
 
-                String organization = element.getElementsByTagName("organization").item(0).getTextContent();
-                String description = element.getElementsByTagName("description").item(0).getTextContent();
-                double amount = Double.parseDouble(element.getElementsByTagName("amount").item(0).getTextContent());
-                String date = element.getElementsByTagName("date").item(0).getTextContent();
-                String awardedTo = element.getElementsByTagName("awardedTo").item(0).getTextContent();
+                String nif = getText(elem, "nif");
+                String awardedTo = getText(elem, "adjudicatario");
+                String genericObject = getText(elem, "objetoGenerico");
+                String objectDescription = getText(elem, "objetoGenerico");
+                String objectDetail = getText(elem, "objeto");
+                String awardedDate = getText(elem, "fechaAdjudicacion");
+                String consultedProviders = getText(elem, "proveedoresConsultados");
 
-                contracts.add(new Contract(organization, description, amount, date, awardedTo));
+                // Clean amount: "110,50 €" → "110.50"
+                String amountRaw = getText(elem, "importe");
+                double amount = parseAmount(amountRaw);
+
+                contracts.add(
+                        new Contract(
+                                nif, awardedTo, genericObject, objectDetail,
+                                awardedDate, amount, consultedProviders
+                        )
+                );
             }
-        }catch(Exception e){
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         return contracts;
+    }
+
+    private static String getText(Element elem, String tag) {
+        NodeList list = elem.getElementsByTagName(tag);
+        return list.getLength() > 0 ? list.item(0).getTextContent() : "";
+    }
+
+    private static double parseAmount(String importValue) {
+        if (importValue == null || importValue.isEmpty()) return 0.0;
+
+        // Remove € and spaces
+        String cleaned = importValue.replace("€", "").trim();
+
+        // Convert Spanish decimal comma to dot
+        cleaned = cleaned.replace(",", ".");
+
+        try {
+            return Double.parseDouble(cleaned);
+        } catch (Exception e) {
+            System.err.println("Invalid amount: " + importValue);
+            return 0.0;
+        }
     }
 }
