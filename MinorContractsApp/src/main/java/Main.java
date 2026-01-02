@@ -9,33 +9,30 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("🚀 Starting Minor Contracts Processor...");
+        System.out.println("Iniciando el procesador de Contratos Menores...");
 
         // 1. XML path inside resources
         String inputXML = "src/main/resources/contratos.xml";
         String outputXML = "src/main/resources/contracts-output.xml";
 
         // 2. Read contracts from XML
-        System.out.println("📄 Reading XML file...");
+        System.out.println("Leyendo archivo XML...");
         XMLReader reader = new XMLReader();
         List<Contract> contracts = reader.readContracts(inputXML);
 
-        System.out.println("✔️ Total contracts parsed: " + contracts.size());
-
+        System.out.println("Total de contratos analizados: " + contracts.size());
         // 3. Store contracts into database
-        System.out.println("💾 Saving contracts into the database...");
+        System.out.println("Guardando contratos en la base de datos...");
         ContractDAO dao = new ContractDAO();
         dao.insertContracts(contracts);
 
-        System.out.println("✔️ Data successfully saved in database.");
-
+        System.out.println("Datos guardados exitosamente en la base de datos.");
         // 4. Generate new XML without <tipoContrato>
-        System.out.println("📝 Generating output XML...");
+        System.out.println("Generando XML de salida...");
         XMLWriter writer = new XMLWriter();
         writer.writeContracts(contracts, outputXML);
 
-        System.out.println("✔️ Output file created: " + outputXML);
-
-        System.out.println("🎉 Process completed successfully!");
+        System.out.println("Archivo de salida creado: " + outputXML);
+        System.out.println("¡Proceso completado exitosamente!");
     }
 }
