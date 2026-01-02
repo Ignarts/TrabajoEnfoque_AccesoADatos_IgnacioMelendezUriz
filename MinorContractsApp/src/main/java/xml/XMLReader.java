@@ -1,11 +1,17 @@
 package xml;
 
-import model.Contract;
-import org.w3c.dom.*;
-import javax.xml.parsers.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import model.Contract;
 
 public class XMLReader {
 
@@ -24,7 +30,6 @@ public class XMLReader {
                 String nif = getText(elem, "nif");
                 String awardedTo = getText(elem, "adjudicatario");
                 String genericObject = getText(elem, "objetoGenerico");
-                String objectDescription = getText(elem, "objetoGenerico");
                 String objectDetail = getText(elem, "objeto");
                 String awardedDate = getText(elem, "fechaAdjudicacion");
                 String consultedProviders = getText(elem, "proveedoresConsultados");
@@ -36,9 +41,7 @@ public class XMLReader {
                 contracts.add(
                         new Contract(
                                 nif, awardedTo, genericObject, objectDetail,
-                                awardedDate, amount, consultedProviders
-                        )
-                );
+                                awardedDate, amount, consultedProviders));
             }
 
         } catch (Exception e) {
@@ -54,7 +57,8 @@ public class XMLReader {
     }
 
     private static double parseAmount(String importValue) {
-        if (importValue == null || importValue.isEmpty()) return 0.0;
+        if (importValue == null || importValue.isEmpty())
+            return 0.0;
 
         // Remove € and spaces
         String cleaned = importValue.replace("€", "").trim();

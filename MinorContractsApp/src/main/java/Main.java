@@ -1,10 +1,9 @@
+import java.util.List;
+
 import dao.ContractDAO;
 import model.Contract;
-import xml.XMLDownloader;
 import xml.XMLReader;
 import xml.XMLWriter;
-
-import java.util.List;
 
 public class Main {
 
