@@ -1,25 +1,25 @@
 package dao;
 
-import db.DatabaseConnection;
-import model.Contract;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+import db.DatabaseConnection;
+import model.Contract;
+
 public class ContractDAO {
 
-    private static final String INSERT_SQL =
-            "INSERT INTO contracts (nif, awardedTo, genericObject, objectDescription, awardedDate, amount, consultedProviders) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String INSERT_SQL = "INSERT INTO contracts (nif, awardedTo, genericObject, objectDescription, awardedDate, amount, consultedProviders) "
+            +
+            "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     /**
      * Inserts a list of Contract objects into the database.
      */
     public void insertContracts(List<Contract> contracts) {
         try (Connection connection = DatabaseConnection.connect();
-             PreparedStatement stmt = connection.prepareStatement(INSERT_SQL)) {
+                PreparedStatement stmt = connection.prepareStatement(INSERT_SQL)) {
 
             for (Contract c : contracts) {
 
@@ -34,10 +34,10 @@ public class ContractDAO {
                 stmt.executeUpdate();
             }
 
-            System.out.println("✔️ All contracts inserted successfully.");
+            System.out.println("✔️ Todos los contratos han sido insertados correctamente.");
 
         } catch (SQLException e) {
-            System.err.println("❌ Error inserting contracts: " + e.getMessage());
+            System.err.println("❌ Error al insertar los contratos: " + e.getMessage());
         }
     }
 }
