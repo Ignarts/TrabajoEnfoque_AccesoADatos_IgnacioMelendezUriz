@@ -11,9 +11,9 @@ public class Main {
 
         System.out.println("Iniciando el procesador de Contratos Menores...");
 
-        // 1. XML path inside resources
-        String inputXML = "src/main/resources/contratos.xml";
-        String outputXML = "src/main/resources/contracts-output.xml";
+        // 1. XML path inside module resources
+        String inputXML = "MinorContractsApp/src/main/resources/contratos.xml";
+        String outputXML = "MinorContractsApp/src/main/resources/contracts-output.xml";
 
         // 2. Read contracts from XML
         System.out.println("Leyendo archivo XML...");
